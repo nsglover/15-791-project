@@ -1,4 +1,8 @@
-*.agdai
+# Filesystem
 .DS_Store
 
-documentation/
+# Implementation
+*.agdai
+
+# Documentation and Theory
+*.pdf

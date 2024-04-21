@@ -21,6 +21,7 @@ SystemF+._+_ Compile A B = ∀' α , (A ⇒ α) ⇒ (B ⇒ α) ⇒ α
 SystemF+._×_ Compile A B = ∀' α , (A ⇒ B ⇒ α) ⇒ α
 SystemF+._⇒_ Compile = _⇒_
 SystemF+.∀' Compile = ∀'
+SystemF+.∃ Compile tf = ∀' α , (∀' β , tf β ⇒ α) ⇒ α
 
 SystemF+.* Compile = Λ α , ƛ x , x
 SystemF+.1·_ Compile e = Λ α , ƛ fa , ƛ fb , ap fa e
@@ -28,6 +29,7 @@ SystemF+.2·_ Compile e = Λ α , ƛ fa , ƛ fb , ap fb e
 SystemF+.⟨_,_⟩ Compile e₁ e₂ = Λ α , ƛ fab , ap (ap fab e₁) e₂
 SystemF+.ƛ Compile = ƛ
 SystemF+.Λ Compile = Λ
+SystemF+.pack Compile A e = Λ α , ƛ x , ap (tpap x A) e
 
 SystemF+.absurd Compile {A = A} e = tpap e A
 SystemF+.case Compile {C = C} e fa fb = ap (ap (tpap e C) (ƛ fa)) (ƛ fb)
@@ -35,6 +37,7 @@ SystemF+._·1 Compile {A = A} e = ap (tpap e A) (ƛ x , ƛ y , x)
 SystemF+._·2 Compile {B = B} e = ap (tpap e B) (ƛ x , ƛ y , y)
 SystemF+.ap Compile = ap
 SystemF+.tpap Compile = tpap
+SystemF+.unpack Compile {B} e f = ap (tpap e B) (Λ α , ƛ x , f α x)
 
 SystemF+.+-β₁ Compile {A} {B} {C} {fa} {fb} {e} =
   let open ≡-Reasoning in
@@ -90,8 +93,22 @@ SystemF+.×-β₂ Compile {A} {B} {e₁} {e₂} =
     ∎
 SystemF+.→-β Compile = →-β
 SystemF+.∀-β Compile = ∀-β
+SystemF+.∃-β Compile {A} {C} {tf} {e} {f} =
+  let open ≡-Reasoning in
+    begin
+      ap (tpap (Λ α , ƛ x , ap (tpap x A) e) C) (Λ α , ƛ (f α))
+    ≡⟨ Eq.cong (λ s → ap s (Λ α , ƛ (f α))) ∀-β ⟩
+      ap (ƛ x , ap (tpap x A) e) (Λ α , ƛ (f α))
+    ≡⟨ →-β ⟩
+      ap (tpap (Λ α , ƛ (f α)) A) e
+    ≡⟨ Eq.cong (λ s → ap s e) ∀-β ⟩
+      ap (ƛ (f A)) e
+    ≡⟨ →-β ⟩
+      f A e
+    ∎
 
 SystemF+.+-η Compile = {!   !}
 SystemF+.×-η Compile = {!   !}
 SystemF+.→-η Compile = →-η
 SystemF+.∀-η Compile = ∀-η
+SystemF+.∃-η Compile = {!   !}

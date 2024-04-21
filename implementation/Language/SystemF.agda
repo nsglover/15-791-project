@@ -45,4 +45,3 @@ record SystemF : Set₂ where
     -- η-laws
     →-η : {A B : Type} {e : V (A ⇒ B)} → ƛ (ap e) ≡ e
     ∀-η : {tf : Type → Type} {e : V (∀' tf)} → Λ (tpap e) ≡ e
-  

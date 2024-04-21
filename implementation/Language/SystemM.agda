@@ -93,4 +93,3 @@ record SystemM : Set₂ where
     →-η : {A B : Type} {e : V (A ⇒ B)} → ƛ (ap e) ≡ e
     μ-η : {P : PosTyOp} {e : V (μ P)} → rec fold e ≡ e
     ν-η : {P : PosTyOp} {e : V (ν P)} → gen unfold e ≡ e
- 

@@ -88,7 +88,7 @@ record SystemM : Set₂ where
     ν-β : {P : PosTyOp} {A : Type} {f : V A → V (eval P A)} {e : V A} → unfold (gen f e) ≡ map (gen f) (f e)
 
     -- η-laws
-    +-η : {A B : Type} {e : V (A + B)} → case e (λ x → 1· x) (λ y → 2· y) ≡ e
+    +-η : {A B C : Type} {e : V (A + B)} {f : V (A + B) → V C} → case e (λ x → f (1· x)) (λ y → f (2· y)) ≡ f e
     ×-η : {A B : Type} {e : V (A × B)} → ⟨ e ·1 , e ·2 ⟩ ≡ e
     →-η : {A B : Type} {e : V (A ⇒ B)} → ƛ (ap e) ≡ e
     μ-η : {P : PosTyOp} {e : V (μ P)} → rec fold e ≡ e

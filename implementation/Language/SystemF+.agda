@@ -57,7 +57,7 @@ record SystemF+ : Set₂ where
     ∀-β : {tf : Type → Type} {f : (α : Type) → V (tf α)} {A : Type} → tpap (Λ f) A ≡ f A
 
     -- η-laws
-    +-η : {A B : Type} {e : V (A + B)} → case e (λ x → 1· x) (λ y → 2· y) ≡ e
+    +-η : {A B C : Type} {e : V (A + B)} {f : V (A + B) → V C} → case e (λ x → f (1· x)) (λ y → f (2· y)) ≡ f e
     ×-η : {A B : Type} {e : V (A × B)} → ⟨ e ·1 , e ·2 ⟩ ≡ e
     →-η : {A B : Type} {e : V (A ⇒ B)} → ƛ (ap e) ≡ e
     ∀-η : {tf : Type → Type} {e : V (∀' tf)} → Λ (tpap e) ≡ e
